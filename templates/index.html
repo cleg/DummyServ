@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dummy server</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+        $(function() {
+            var ws = new WebSocket("ws://cleg.pagekite.me/ws");
+            ws.onmessage = function (evt) {
+                var json = JSON.parse(evt.data);
+                $("#val").text(json.val);
+            };
+
+            $.ajax({
+                url: "http://cleg.pagekite.me/api",
+                type: "GET",
+                success: function(json) {
+                    $("#val").text(json.val);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <p style="font-size: 200px ; text-align: center" id="val">#</p>
+</body>
+<script>
+</script>
+</html>
