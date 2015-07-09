@@ -39,10 +39,15 @@ class ApiHandler(RequestHandler):
             if u"val" not in data:
                 self.send_error(400, reason=u"Parameter `val` required")
                 return
-
-            ApiHandler.value = int(data[u"val"])
+            
+            new_val = int(data[u"val"])
+            if not -1 < new_val < 10:
+                self.send_error(406, reason=u"Parameter `val` should be in range [0..9]")
+                return
+                
+            ApiHandler.value = new_val
         except StandardError:
-            self.send_error(406, reason=u"Please send following JSON: `{num: 5}`")
+            self.send_error(406, reason=u"Please send following JSON: `val`")
             return
 
         for cl in clients:
